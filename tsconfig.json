@@ -1,6 +1,8 @@
 {
     "files": [
-        "src/index.ts"
+        "src/index.ts",
+        "src/Query.ts",
+        "src/Sanitizer.ts"
     ],
     "compilerOptions": {
         "noImplicitAny": true,
