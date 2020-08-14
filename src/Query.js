@@ -1,38 +1,37 @@
 /**
  * Query Types
  */
-export enum QueryType {
-    Durability
+const QueryType = {
+    Durability: "Durability"
 }
 
 /**
  * Base query class
  */
 class Query {
-    query: string;
 
     /**
      * Empty constructor
      */
     constructor() {
-        this.query = "";
+        this.query = ""
     }
 
     /**
      * Run the query, return the results
      */
-    run(): string {
-        console.log(`Running query: ${this.query}`);
+    run() {
+        console.log(`Running query: ${this.query}`)
 
         // TODO: Either pull data from scraper or from data store
-        return "";
+        return ""
     }
 
     /**
      * Access the query string
      */
-    getQuery(): string {
-        return this.query;
+    getQuery() {
+        return this.query
     }
 }
 
@@ -45,41 +44,55 @@ class DurabilityQuery extends Query {
      * Builds the durabilty query
      * @param itemName -- The name of the item to query for
      */
-    constructor(itemName: string) {
-        super();
-        this.query = `https://rustlabs.com/item/${itemName}#tab=destroyed-by;filter=0,1,1,1,0;sort=4,0,3`;
+    constructor(itemName) {
+        super()
+        this.query = `https://rustlabs.com/item/${itemName}#tab=destroyed-by;filter=0,1,1,1,0;sort=4,0,3`
+    }
+
+    /**
+     * Returns the query string
+     */
+    getLink() {
+        return this.query
     }
 }
 
 /**
  * Exported query class to build and run queries
  */
-export class QueryMan {
+class QueryMan {
 
     /**
      * Runs a durability query
      * @param queryType -- The type of query to run
      * @param itemName -- The item name to run the query for
      */
-    public runQuery(queryType: QueryType, itemName: string) {
-        this.buildQuery(queryType, itemName).run();
+    runQuery(queryType, itemName) {
+        this.buildQuery(queryType, itemName).run()
     }
 
     /**
      * Builds query of the provided type
      * @param queryType -- The type of query
      * @param itemName -- The name of the item
+     * @return The new query
      */
-    private buildQuery(queryType: QueryType, itemName: string): Query {
+    buildQuery(queryType, itemName) {
 
         // TODO: Sanitize and return the closest item name to the provided one
 
         switch(queryType) {
             case QueryType.Durability:
-                return new DurabilityQuery(itemName);
+                return new DurabilityQuery(itemName)
             default:
-                return new Query();
+                return new Query()
         }
     }
 
+}
+
+// Exports
+module.exports = {
+    QueryType: QueryType,
+    QueryMan: QueryMan
 }

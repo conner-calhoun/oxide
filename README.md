@@ -1,2 +1,2 @@
-# rustylad
+# Oxide
 A Rust Discord bot
