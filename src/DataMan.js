@@ -22,8 +22,7 @@ class DataMan {
         let results = await axios.get(url)
         
         // Parse the response data here and return the json
-        let rawData = this.parseData(results.data)
-        return rawData
+        return this.parseData(results.data)
     }
 
     /**
@@ -31,12 +30,19 @@ class DataMan {
      * @param {The web data to parse} data 
      */
     parseData(data) {
-        let results = []
+        // Dictionary of type to list of items
+        let results = {}
+        this.types.forEach(type => {
+            results[type] = []
+        })
+
         let $ = cheerio.load(data)
 
         // For each table row that is one of the types
 		$('tr').each((_idx, el) => {
-            if (this.types.includes($(el).attr("data-group"))) {
+
+            let dataGroup = $(el).attr("data-group")
+            if (this.types.includes(dataGroup)) {
                 let parsedJson = {}
 
                 $(el).children('td').each((i, elem) => {
@@ -59,7 +65,7 @@ class DataMan {
                     }
                 })
 
-                results.push(parsedJson)
+                results[dataGroup].push(parsedJson)
             }
         })
 

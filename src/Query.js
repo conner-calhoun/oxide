@@ -1,5 +1,8 @@
 const DataMan = require("./DataMan")
 
+// The object that gathers the data
+var dataBoy = new DataMan.DataMan()
+
 /**
  * Query Types
  */
@@ -13,12 +16,13 @@ const QueryType = {
 class Query {
 
     /**
-     * Empty constructor
+     * Initialize values
      */
     constructor() {
-        this.dataBoy = new DataMan.DataMan()
-
+        // The name of the item being queried
         this.itemName = ""
+
+        // The url being queried
         this.query = ""
     }
 
@@ -26,15 +30,13 @@ class Query {
      * Run the query, return the results
      */
     async run() {
-        console.log(`Running query: ${this.query}`)
-
         // TODO: Either pull data from scraper or from data store
-        let data = await this.dataBoy.getData(this.itemName, this.query)
+        let data = await dataBoy.getData(this.itemName, this.query)
         return data
     }
 
     /**
-     * Access the query string
+     * Accessor for the query string
      */
     getQuery() {
         return this.query
@@ -48,7 +50,7 @@ class DurabilityQuery extends Query {
 
     /**
      * Builds the durabilty query
-     * @param itemName -- The name of the item to query for
+     * @param {The name of the item to query for} itemName
      */
     constructor(itemName) {
         super()
@@ -63,9 +65,9 @@ class DurabilityQuery extends Query {
 class QueryMan {
 
     /**
-     * Runs a durability query
-     * @param queryType -- The type of query to run
-     * @param itemName -- The item name to run the query for
+     * Builds and runs a query
+     * @param {The type of query to run} queryType
+     * @param {The item name to run the query for} itemName
      */
     runQuery(queryType, itemName) {
         this.buildQuery(queryType, itemName).run()
@@ -73,8 +75,8 @@ class QueryMan {
 
     /**
      * Builds query of the provided type
-     * @param queryType -- The type of query
-     * @param itemName -- The name of the item
+     * @param {The type of query} queryType
+     * @param {The name of the item} itemName
      * @return The new query
      */
     buildQuery(queryType, itemName) {
