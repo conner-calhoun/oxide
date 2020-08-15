@@ -1,3 +1,5 @@
+const DataMan = require("./DataMan")
+
 /**
  * Query Types
  */
@@ -14,17 +16,21 @@ class Query {
      * Empty constructor
      */
     constructor() {
+        this.dataBoy = new DataMan.DataMan()
+
+        this.itemName = ""
         this.query = ""
     }
 
     /**
      * Run the query, return the results
      */
-    run() {
+    async run() {
         console.log(`Running query: ${this.query}`)
 
         // TODO: Either pull data from scraper or from data store
-        return ""
+        let data = await this.dataBoy.getData(this.itemName, this.query)
+        return data
     }
 
     /**
@@ -46,14 +52,8 @@ class DurabilityQuery extends Query {
      */
     constructor(itemName) {
         super()
+        this.itemName = itemName
         this.query = `https://rustlabs.com/item/${itemName}#tab=destroyed-by;filter=0,1,1,1,0;sort=4,0,3`
-    }
-
-    /**
-     * Returns the query string
-     */
-    getLink() {
-        return this.query
     }
 }
 
@@ -78,7 +78,6 @@ class QueryMan {
      * @return The new query
      */
     buildQuery(queryType, itemName) {
-
         // TODO: Sanitize and return the closest item name to the provided one
 
         switch(queryType) {

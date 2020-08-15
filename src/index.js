@@ -24,14 +24,22 @@ client.on('ready', () => {
  
 client.on('message', msg => {
     // For now send the query any time there is a new message
-    if (msg.content.includes("oxide")) {
+    if (msg.content.includes("!oxide")) {
         
         // Build query, display link
         q = qman.buildQuery(query.QueryType.Durability, 'armored-door')
-        msg.channel.send(q.getLink())
         
-        // Run the query display results
-        let results = q.run()
-        //msg.channel.send(results)
+        // Run the query and display results
+        q.run().then((res) => {
+            msg.channel.send(q.getQuery())
+
+            let allItems = ""
+            res.forEach(item => {
+                let dataStr = `> **${item["name"]}**\tQuantity: ${item["quantity"]}\tTime: ${item["time"]}\tSulfur: ${item["sulfur"]}`
+                allItems += dataStr + "\n"
+            })
+            
+            msg.channel.send(allItems)
+        })
     }
-});
+})
