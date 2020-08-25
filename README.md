@@ -1,2 +1,2 @@
 # Oxide
-A Rust Discord bot
+A Rust (Game) Discord bot
