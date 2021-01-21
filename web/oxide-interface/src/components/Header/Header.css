@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 3px solid rgb(204, 65, 43);
+}
+img {
+    width: 64px;
+    height: auto;
+    border-radius: 50%;
+}
+.title {
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+}
